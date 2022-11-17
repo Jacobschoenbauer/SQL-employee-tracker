@@ -9,5 +9,5 @@ VALUE (1, "",),
     
 
 INSERT INTO employee (id, first_name, last_name, role_id, manger_id)
-VALUE (1, "Sales"),
+VALUE (1, ""),
      
