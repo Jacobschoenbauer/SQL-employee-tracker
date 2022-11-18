@@ -2,7 +2,7 @@ const express = require("express");
 
 const mysql = require("mysql2");
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 6500;
 const app = express();
 
 app.use(express.urlencoded({ extended: false }));
@@ -11,11 +11,9 @@ app.use(express.json());
 const db = mysql.createConnection(
   {
     host: "localhost",
-    
     user: "root",
-    
-    password: "",
-    database: "movies_db",
+    password: "Sexy6508$",
+    database: "show_db",
   },
-  console.log(`Connected to the movies_db database.`)
+  console.log(`Connected to the show_db database.`)
 );
