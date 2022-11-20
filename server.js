@@ -1,7 +1,7 @@
 const express = require("express");
 
 const mysql = require("mysql2");
-
+const index = require("./index")
 const PORT = process.env.PORT || 6500;
 const app = express();
 
@@ -17,3 +17,6 @@ const db = mysql.createConnection(
   },
   console.log(`Connected to the show_db database.`)
 );
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});

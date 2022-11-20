@@ -4,16 +4,17 @@ const fs = require("fs");
 function menu() {
   inquirer
     .prompt([
-      // choice type add engeneer, add intern or crfeate profile
       {
         type: "list",
         name: "choice",
-        message: "Choose from options below",
+        message: "What would you like to do?",
         choices: [
-          "add manager",
-          "add engineer",
-          "add intern",
-          "Create Profile",
+          "View all Employees",
+          "Add Employee",
+          "Update Employeec Role",
+          "Add Role",
+          "View All Departments",
+          "Add Department",
         ],
         validate: (optionGroup) => {
           if (optionGroup) {
@@ -27,20 +28,68 @@ function menu() {
     ])
     .then((entered) => {
       console.log(entered.choice);
-      if (entered.choice === "add engineer") defineEngineer();
-      else if (entered.choice === "add intern") defineIntern();
-      else if (entered.choice === "add manager") defineManager();
-      else createProfile();
+      if (entered.choice === "View all Employees") allEmployee();
+      else if (entered.choice === "Add Employee") addEmployee();
+      else if (entered.choice === "Update Employeec Role") updateEmployee();
+      else if (entered.choice === "View All Departments") viewDepartment();
+      else if (entered.choice === "Add Department") addDepatment();
+      else addRole();
     });
 }
 
-function createProfile() {
-  console.log(team);
-  const generateMarkingdown = generateMarkdown(team);
-  fs.writeFile("./dist/Team-Profile.html", generateMarkingdown, (err) => {
-    if (err) console.log(err);
-    else {
-      console.log("Finished");
-    }
+function allEmployee() {
+  app.get("/api/all-employee", (req, res) => {
+    const sql = `SELECT id, first_name, last_name, role_id, manger_id FROM employee`;
+
+    db.query(sql, (err, rows) => {
+      if (err) {
+        res.status(500).json({ error: err.message });
+        return;
+      }
+      res.json({
+        message: "success",
+        data: rows,
+      });
+    });
   });
 }
+function addEmployee(){
+app.post("/api/add-employee", ({ body }, res) => {
+  const sql = `INSERT INTO employee (id, first_name, last_name, role_id, manger_id)
+      VALUES (?)`;
+  const params = [body.movie_name];
+
+  db.query(sql, params, (err, result) => {
+    if (err) {
+      res.status(400).json({ error: err.message });
+      return;
+    }
+    res.json({
+      message: "success",
+      data: body,
+    });
+  });
+});
+};
+
+//function updateEmployee(){};
+function viewDepartment() {
+  app.get("/api/view-department", (req, res) => {
+    const sql = `SELECT id, department_name FROM department`;
+
+    db.query(sql, (err, rows) => {
+      if (err) {
+        res.status(500).json({ error: err.message });
+        return;
+      }
+      res.json({
+        message: "success",
+        data: rows,
+      });
+    });
+  });
+}
+
+//function addDepatment(){};
+//function addRole(){};
+menu();
