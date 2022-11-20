@@ -7,5 +7,23 @@
     "mysql2": "^2.3.3",
     "node": "^19.1.0",
     "require": "^2.4.20"
-  }
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "name": "sql-employee-tracker",
+  "description": "init file",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jacobschoenbauer/SQL-employee-tracker.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jacobschoenbauer/SQL-employee-tracker/issues"
+  },
+  "homepage": "https://github.com/Jacobschoenbauer/SQL-employee-tracker#readme"
 }
