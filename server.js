@@ -1,7 +1,7 @@
 const express = require("express");
 
 const mysql = require("mysql2");
-const index = require("./index")
+const index = require("./index");
 const PORT = process.env.PORT || 6500;
 const app = express();
 

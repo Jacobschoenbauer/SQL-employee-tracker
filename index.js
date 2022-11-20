@@ -1,6 +1,5 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
-
 function menu() {
   inquirer
     .prompt([
@@ -53,24 +52,24 @@ function allEmployee() {
     });
   });
 }
-function addEmployee(){
-app.post("/api/add-employee", ({ body }, res) => {
-  const sql = `INSERT INTO employee (id, first_name, last_name, role_id, manger_id)
+function addEmployee() {
+  app.post("/api/add-employee", ({ body }, res) => {
+    const sql = `INSERT INTO employee (id, first_name, last_name, role_id, manger_id)
       VALUES (?)`;
-  const params = [body.movie_name];
+    const params = [body.movie_name];
 
-  db.query(sql, params, (err, result) => {
-    if (err) {
-      res.status(400).json({ error: err.message });
-      return;
-    }
-    res.json({
-      message: "success",
-      data: body,
+    db.query(sql, params, (err, result) => {
+      if (err) {
+        res.status(400).json({ error: err.message });
+        return;
+      }
+      res.json({
+        message: "success",
+        data: body,
+      });
     });
   });
-});
-};
+}
 
 //function updateEmployee(){};
 function viewDepartment() {
