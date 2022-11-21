@@ -13,7 +13,7 @@ const db = mysql.createConnection(
   {
     host: "localhost",
     user: "root",
-    password: "",
+    password: "Sexy6508$",
     database: "show_db",
   },
   console.log(`Connected to the show_db database.`)
@@ -65,26 +65,25 @@ function menu() {
 
 function allEmployee() {
   db.query(
-    `SELECT id, first_name, last_name, role_id, manger_id FROM employee;`,
+    `SELECT id, first_name, last_name, role_id, manager_id FROM employee;`,
     (err, res) => {
       if (err) throw err;
-      console.table("\n", res, "\n");
+      console.table(res);
       menu();
     }
   );
 }
 
 function addEmployee() {
-  db.query(`SELECT * FROM role;`, (err, res) => {
-    if (err) throw err;
-    let roles = res.map((role) => ({ name: role.title, value: role.role_id }));
+  db.query(`SELECT id as value, title as name FROM role;`, (err, roles) => {
+    console.log(roles);
     db.query(`SELECT * FROM employee;`, (err, res) => {
       if (err) throw err;
       let employees = res.map((employee) => ({
         name: employee.first_name + " " + employee.last_name,
-        value: employee.employee_id,
+        value: employee.id,
       }));
-
+      console.log(employees);
       inquirer
         .prompt([
           {
@@ -116,22 +115,13 @@ function addEmployee() {
             {
               first_name: response.firstName,
               last_name: response.lastName,
-              role: response.role_id,
+              role_id: response.role,
               manager_id: response.manager,
             },
             (err, res) => {
               if (err) throw err;
-            }
-          );
-          db.query(
-            `INSERT INTO role SET ?`,
-            {
-              department_id: response.dept,
-            },
-            (err, res) => {
-              if (err) throw err;
               console.log(
-                `\n ${response.firstName} ${response.lastName} successfully added to database! \n`
+                `${response.firstName} ${response.lastName} successfully added to database!`
               );
               menu();
             }
@@ -145,7 +135,7 @@ function addEmployee() {
 function viewDepartment() {
   db.query(`SELECT id, name FROM department;`, (err, res) => {
     if (err) throw err;
-    console.table("\n", res, "\n");
+    console.table(res);
     menu();
   });
 }
@@ -154,7 +144,7 @@ function viewDepartment() {
 function addRole() {
   db.query(`SELECT id role FROM role;`, (err, res) => {
     if (err) throw err;
-    console.table("\n", res, "\n");
+    console.table(res);
     menu();
   });
 }

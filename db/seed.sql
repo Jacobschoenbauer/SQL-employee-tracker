@@ -11,8 +11,8 @@ VALUES  (1, "Super Seller", 70000, 2),
         (4, "Does It All", 10000, 4);
     
 
-INSERT INTO employee (id, first_name, last_name, role_id, manger_id)
-VALUES (1, "Ben", "Schoenbauer", 2, NULL),
+INSERT INTO employee (id, first_name, last_name, role_id, manager_id)
+VALUES (1, "Ben", "Schoenbauer", 2, 1),
        (2, "Mike", "Schoenbauer", 4, 3),
        (3, "Dave", "Schoenbauer", 1, 4),
        (4, "Jake", "Schoenbauer", 3, 2);

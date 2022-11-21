@@ -38,7 +38,7 @@ function menu() {
 
 function allEmployee() {
   app.get("/api/all-employee", (req, res) => {
-    const sql = `SELECT id, first_name, last_name, role_id, manger_id FROM employee`;
+    const sql = `SELECT id, first_name, last_name, role_id, manager_id FROM employee`;
 
     db.query(sql, (err, rows) => {
       if (err) {
@@ -54,7 +54,7 @@ function allEmployee() {
 }
 function addEmployee() {
   app.post("/api/add-employee", ({ body }, res) => {
-    const sql = `INSERT INTO employee (id, first_name, last_name, role_id, manger_id)
+    const sql = `INSERT INTO employee (id, first_name, last_name, role_id, manager_id)
       VALUES (?)`;
     const params = [body.movie_name];
 
