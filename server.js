@@ -13,7 +13,7 @@ const db = mysql.createConnection(
   {
     host: "localhost",
     user: "root",
-    password: "Sexy6508$",
+    password: "",
     database: "show_db",
   },
   console.log(`Connected to the show_db database.`)
@@ -75,8 +75,70 @@ function allEmployee() {
 }
 
 function addEmployee() {
-  console.log("This worked kinda");
-  menu();
+  db.query(`SELECT * FROM role;`, (err, res) => {
+    if (err) throw err;
+    let roles = res.map((role) => ({ name: role.title, value: role.role_id }));
+    db.query(`SELECT * FROM employee;`, (err, res) => {
+      if (err) throw err;
+      let employees = res.map((employee) => ({
+        name: employee.first_name + " " + employee.last_name,
+        value: employee.employee_id,
+      }));
+
+      inquirer
+        .prompt([
+          {
+            name: "firstName",
+            type: "input",
+            message: "What is the new employee's first name?",
+          },
+          {
+            name: "lastName",
+            type: "input",
+            message: "What is the new employee's last name?",
+          },
+          {
+            name: "role",
+            type: "list",
+            message: "What is the new employee's title?",
+            choices: roles,
+          },
+          {
+            name: "manager",
+            type: "list",
+            message: "Who is the new employee's manager?",
+            choices: employees,
+          },
+        ])
+        .then((response) => {
+          db.query(
+            `INSERT INTO employee SET ?`,
+            {
+              first_name: response.firstName,
+              last_name: response.lastName,
+              role: response.role_id,
+              manager_id: response.manager,
+            },
+            (err, res) => {
+              if (err) throw err;
+            }
+          );
+          db.query(
+            `INSERT INTO role SET ?`,
+            {
+              department_id: response.dept,
+            },
+            (err, res) => {
+              if (err) throw err;
+              console.log(
+                `\n ${response.firstName} ${response.lastName} successfully added to database! \n`
+              );
+              menu();
+            }
+          );
+        });
+    });
+  });
 }
 
 //function updateEmployee(){ menu()};
@@ -89,4 +151,10 @@ function viewDepartment() {
 }
 
 //function addDepatment(){ menu()};
-//function addRole(){ menu()};
+function addRole() {
+  db.query(`SELECT id role FROM role;`, (err, res) => {
+    if (err) throw err;
+    console.table("\n", res, "\n");
+    menu();
+  });
+}
