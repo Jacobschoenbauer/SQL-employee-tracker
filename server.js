@@ -56,7 +56,7 @@ function menu() {
         },
       },
     ])
-    // promise for answers 
+    // promise for answers
     .then((entered) => {
       console.log(entered.choice);
       if (entered.choice === "View all Employees") allEmployee();
@@ -146,32 +146,31 @@ function viewDepartment() {
 }
 
 function addDepatment() {
-  function addRole() {
-    inquirer
-      .prompt([
+  inquirer
+    .prompt([
+      {
+        name: "new_department",
+        type: "input",
+        message: "What is the new Department?",
+      },
+    ])
+    .then((response) => {
+      db.query(
+        `INSERT INTO department SET ?`,
         {
-          name: "new_department",
-          type: "input",
-          message: "What is the new Department?",
+          name: response.new_department,
         },
-      ])
-      .then((response) => {
-        db.query(
-          `INSERT INTO department SET ?`,
-          {
-            name: response.new_department,
-          },
-          (err, res) => {
-            if (err) throw err;
-            console.log(
-              ` ${response.new_department} successfully added to department!`
-            );
-            menu();
-          }
-        );
-      });
-  }
+        (err, res) => {
+          if (err) throw err;
+          console.log(
+            ` ${response.new_department} successfully added to department!`
+          );
+          menu();
+        }
+      );
+    });
 }
+
 function addRole() {
   inquirer
     .prompt([
@@ -180,12 +179,18 @@ function addRole() {
         type: "input",
         message: "What is the new role?",
       },
+      {
+        name: "salary",
+        type: "input",
+        message: "What is the roles salary",
+      },
     ])
     .then((response) => {
       db.query(
         `INSERT INTO role SET ?`,
         {
           title: response.new_role,
+          salary: response.salary,
         },
         (err, res) => {
           if (err) throw err;
@@ -196,10 +201,9 @@ function addRole() {
     });
 }
 function viewRoles() {
-  db.query(`SELECT id role FROM role;`, (err, res) => {
+  db.query(`SELECT id, title, salary FROM role;`, (err, res) => {
     if (err) throw err;
     console.table(res);
     menu();
   });
-  menu();
 }
