@@ -1,3 +1,4 @@
+// links
 const express = require("express");
 const inquirer = require("inquirer");
 const fs = require("fs");
@@ -18,15 +19,17 @@ const db = mysql.createConnection(
   },
   console.log(`Connected to the show_db database.`)
 );
+// set up connection for query
 db.connect((err) => {
   if (err) throw err;
   console.log(`Connected as id ${db.threadId} \n`);
   menu();
 });
-
+// set to port
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+// ask questions to added a view tables from data base
 function menu() {
   inquirer
     .prompt([
@@ -53,6 +56,7 @@ function menu() {
         },
       },
     ])
+    // promise for answers 
     .then((entered) => {
       console.log(entered.choice);
       if (entered.choice === "View all Employees") allEmployee();
@@ -64,7 +68,7 @@ function menu() {
       else addRole();
     });
 }
-
+// to view all in data base
 function allEmployee() {
   db.query(
     `SELECT id, first_name, last_name, role_id, manager_id FROM employee;`,
@@ -75,7 +79,7 @@ function allEmployee() {
     }
   );
 }
-
+// adds a employee
 function addEmployee() {
   db.query(`SELECT id as value, title as name FROM role;`, (err, roles) => {
     console.log(roles);
@@ -132,7 +136,7 @@ function addEmployee() {
     });
   });
 }
-
+// view department
 function viewDepartment() {
   db.query(`SELECT id, name FROM department;`, (err, res) => {
     if (err) throw err;
