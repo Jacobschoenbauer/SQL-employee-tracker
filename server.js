@@ -37,8 +37,9 @@ function menu() {
         choices: [
           "View all Employees",
           "Add Employee",
-          "Update Employeec Role",
+          "Update Employee Role",
           "Add Role",
+          "View All Roles",
           "View All Departments",
           "Add Department",
         ],
@@ -56,9 +57,10 @@ function menu() {
       console.log(entered.choice);
       if (entered.choice === "View all Employees") allEmployee();
       else if (entered.choice === "Add Employee") addEmployee();
-      else if (entered.choice === "Update Employee Role") updateEmployee();
       else if (entered.choice === "View All Departments") viewDepartment();
+      else if (entered.choice === "View All Roles") viewRoles();
       else if (entered.choice === "Add Department") addDepatment();
+      else if (entered.choice === "Add Role") addRole();
       else addRole();
     });
 }
@@ -131,7 +133,6 @@ function addEmployee() {
   });
 }
 
-//function updateEmployee(){ menu()};
 function viewDepartment() {
   db.query(`SELECT id, name FROM department;`, (err, res) => {
     if (err) throw err;
@@ -140,11 +141,61 @@ function viewDepartment() {
   });
 }
 
-//function addDepatment(){ menu()};
+function addDepatment() {
+  function addRole() {
+    inquirer
+      .prompt([
+        {
+          name: "new_department",
+          type: "input",
+          message: "What is the new Department?",
+        },
+      ])
+      .then((response) => {
+        db.query(
+          `INSERT INTO department SET ?`,
+          {
+            name: response.new_department,
+          },
+          (err, res) => {
+            if (err) throw err;
+            console.log(
+              ` ${response.new_department} successfully added to department!`
+            );
+            menu();
+          }
+        );
+      });
+  }
+}
 function addRole() {
+  inquirer
+    .prompt([
+      {
+        name: "new_role",
+        type: "input",
+        message: "What is the new role?",
+      },
+    ])
+    .then((response) => {
+      db.query(
+        `INSERT INTO role SET ?`,
+        {
+          title: response.new_role,
+        },
+        (err, res) => {
+          if (err) throw err;
+          console.log(` ${response.new_role} successfully added to role!`);
+          menu();
+        }
+      );
+    });
+}
+function viewRoles() {
   db.query(`SELECT id role FROM role;`, (err, res) => {
     if (err) throw err;
     console.table(res);
     menu();
   });
+  menu();
 }
